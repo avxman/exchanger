@@ -1,0 +1,46 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateExchangerPricesTable extends Migration
+{
+
+    /**
+     * This variable is the table`s name
+     *
+     * @var string $name_table
+     */
+    protected string $name_table = 'exchanger_prices';
+
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        if(!Schema::hasTable($this->name_table)) {
+            Schema::create($this->name_table, function (Blueprint $table) {
+                $table->id();
+                $table->bigInteger('exchangers_id')->nullable()->unsigned()->index()->comment('ID родителя текущей валюты');
+                $table->string('model_class')->comment('Класс модели');
+                $table->string('model_id')->comment('ID модели');
+                $table->float('price')->comment('Цена');
+                $table->foreign('exchangers_id')->on('exchangers')->references('id')->onDelete('cascade')->onUpdate('cascade');
+            });
+            Illuminate\Support\Facades\DB::statement("ALTER TABLE `" . env('DB_PREFIX') . $this->name_table ."` comment 'Таблица валюты в товарах'");
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists($this->name_table);
+    }
+}

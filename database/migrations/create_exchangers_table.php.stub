@@ -1,1 +1,45 @@
 <?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateExchangersTable extends Migration
+{
+
+    /**
+     * This variable is the table`s name
+     *
+     * @var string $name_table
+     */
+    protected string $name_table = 'exchangers';
+
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        if(!Schema::hasTable($this->name_table)) {
+            Schema::create($this->name_table, function (Blueprint $table) {
+                $table->id();
+                $table->boolean('enabled')->default(1)->comment('Вкл. / Отк. валюту');
+                $table->string('currency_code')->comment('Код валюты');
+                $table->string('lang_name')->comment('Имя валюты - ключ из папки lang и файла exchanger');
+                $table->string('lang_denomination')->comment('Номинал валюты - ключ из папки lang и файла exchanger');
+            });
+            Illuminate\Support\Facades\DB::statement("ALTER TABLE `" . env('DB_PREFIX') . $this->name_table ."` comment 'Таблица валют'");
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists($this->name_table);
+    }
+}

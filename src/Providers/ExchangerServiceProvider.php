@@ -80,11 +80,11 @@ class ExchangerServiceProvider extends ServiceProvider
         $collect = collect()->push(
             [
                 dirname(__DIR__, 2).'/database/migrations/create_exchangers_table.php.stub' => $this->getMigrationFileName($filesystem, 'create_exchangers_table'),
-                dirname(__DIR__, 2).'/database/migrations/create_exchanger_products_table.php.stub' => $this->getMigrationFileName($filesystem, 'create_exchanger_products_table'),
+                dirname(__DIR__, 2) . '/database/migrations/create_exchanger_rates_table.php.stub' => $this->getMigrationFileName($filesystem, 'create_exchanger_rates_table'),
             ],
             [
                 dirname(__DIR__, 2).'/Models/ExchangersModel.php.stub' => $this->getModelFileName($filesystem, 'ExchangersModel'),
-                dirname(__DIR__, 2).'/Models/ExchangerProductsModel.php.stub' => $this->getModelFileName($filesystem, 'ExchangerProductsModel'),
+                dirname(__DIR__, 2) . '/Models/ExchangerRatesModel.php.stub' => $this->getModelFileName($filesystem, 'ExchangerRatesModel'),
             ],
             [
                 dirname(__DIR__, 2).'/config/' => base_path('config').DIRECTORY_SEPARATOR,
